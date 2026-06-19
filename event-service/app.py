@@ -2,12 +2,11 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-VERSION = "v3-broken"
+VERSION = "v2"
 
 @app.route('/health')
 def health():
-    # 故意回傳 500，讓 readinessProbe 失敗
-    return jsonify({"status": "error", "service": "event-service"}), 500
+    return jsonify({"status": "ok", "service": "event-service", "version": VERSION})
 
 @app.route('/events')
 def get_events():
