@@ -8,6 +8,7 @@ pipeline {
         CHART_PATH  = './eventflow-chart'
         VALUES_PATH = './eventflow-chart-values'
         KUBECONFIG  = '/var/lib/jenkins/.kube/config'
+        GCLOUD      = '/home/user1/google-cloud-sdk/bin/gcloud'
     }
 
     stages {
@@ -43,7 +44,7 @@ pipeline {
         stage('Push to Artifact Registry') {
             steps {
                 sh '''
-                    gcloud auth configure-docker ${REGION}-docker.pkg.dev --quiet
+                    ${GCLOUD} auth configure-docker ${REGION}-docker.pkg.dev --quiet
                     docker push ${REGISTRY}/event-service:${BUILD_NUMBER}
                     docker push ${REGISTRY}/booking-service:${BUILD_NUMBER}
                     docker push ${REGISTRY}/notification-service:${BUILD_NUMBER}
