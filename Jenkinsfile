@@ -8,6 +8,7 @@ pipeline {
         CHART_PATH  = './eventflow-chart'
         VALUES_PATH = './eventflow-chart-values'
         KUBECONFIG  = '/var/lib/jenkins/.kube/config'
+        PATH        = "/home/user1/google-cloud-sdk/bin:${env.PATH}"
     }
 
     stages {
