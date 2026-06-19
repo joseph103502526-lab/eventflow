@@ -58,23 +58,23 @@ pipeline {
                 sh '''
                     helm upgrade --install event-service ${CHART_PATH} \
                         -f ${VALUES_PATH}/event-service.yaml \
-                        --set image.tag=nonexistent-broken-tag \
-                        --wait --timeout 2m
+                        --set image.tag=${BUILD_NUMBER} \
+                        --wait --timeout 5m
 
                     helm upgrade --install booking-service ${CHART_PATH} \
                         -f ${VALUES_PATH}/booking-service.yaml \
                         --set image.tag=${BUILD_NUMBER} \
-                        --wait --timeout 2m
+                        --wait --timeout 5m
 
                     helm upgrade --install notification-service ${CHART_PATH} \
                         -f ${VALUES_PATH}/notification-service.yaml \
                         --set image.tag=${BUILD_NUMBER} \
-                        --wait --timeout 2m
+                        --wait --timeout 5m
 
                     helm upgrade --install api-gateway ${CHART_PATH} \
                         -f ${VALUES_PATH}/api-gateway.yaml \
                         --set image.tag=${BUILD_NUMBER} \
-                        --wait --timeout 2m
+                        --wait --timeout 5m
                 '''
             }
         }
