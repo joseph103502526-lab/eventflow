@@ -1,0 +1,13 @@
+# Terraform
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+
+# Helm
+eventflow-chart/charts/
+
+# Docker
+**/__pycache__/
+**/*.pyc
+node_modules/

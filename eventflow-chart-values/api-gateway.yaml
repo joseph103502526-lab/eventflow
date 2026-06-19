@@ -1,0 +1,33 @@
+name: api-gateway
+replicaCount: 1
+port: 3000
+
+image:
+  repository: asia-east1-docker.pkg.dev/eventflow-tibame-2026/eventflow-repo/api-gateway
+  tag: v1
+  pullPolicy: IfNotPresent
+
+env:
+  - name: EVENT_SERVICE_URL
+    valueFrom:
+      configMapKeyRef:
+        name: eventflow-config
+        key: EVENT_SERVICE_URL
+  - name: BOOKING_SERVICE_URL
+    valueFrom:
+      configMapKeyRef:
+        name: eventflow-config
+        key: BOOKING_SERVICE_URL
+  - name: NOTIFICATION_SERVICE_URL
+    valueFrom:
+      configMapKeyRef:
+        name: eventflow-config
+        key: NOTIFICATION_SERVICE_URL
+
+resources:
+  requests:
+    cpu: "250m"
+    memory: "512Mi"
+  limits:
+    cpu: "500m"
+    memory: "1Gi"

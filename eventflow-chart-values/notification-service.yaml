@@ -1,0 +1,23 @@
+name: notification-service
+replicaCount: 1
+port: 5003
+
+image:
+  repository: asia-east1-docker.pkg.dev/eventflow-tibame-2026/eventflow-repo/notification-service
+  tag: v1
+  pullPolicy: IfNotPresent
+
+env:
+  - name: SMS_API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: notification-secret
+        key: SMS_API_KEY
+
+resources:
+  requests:
+    cpu: "250m"
+    memory: "512Mi"
+  limits:
+    cpu: "500m"
+    memory: "1Gi"

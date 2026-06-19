@@ -1,0 +1,6 @@
+apiVersion: v2
+name: eventflow-chart
+description: EventFlow 微服務通用 Helm chart，供四個服務共用模板各自部署
+type: application
+version: 0.1.0
+appVersion: "v1"
