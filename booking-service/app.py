@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request
+from prometheus_flask_exporter import PrometheusMetrics
 import uuid
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 
 VERSION = "v1"
 

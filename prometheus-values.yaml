@@ -1,0 +1,35 @@
+# 1. 關掉 Node Exporter (修正 Key 名稱，必須是 nodeExporter)
+nodeExporter:
+  enabled: false
+
+# 2. 關掉所有會嘗試在 kube-system 建立 Service 的內部監控元件
+kubeEtcd:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false
+coreDns:
+  enabled: false
+kubeDns:
+  enabled: false
+
+# 3. 關閉 Operator 的 admission webhook (避免 Autopilot 網路阻擋)
+prometheusOperator:
+  admissionWebhooks:
+    enabled: false
+  tls:
+    enabled: false
+
+# 4. Grafana 登入密碼
+grafana:
+  adminPassword: "eventflow-admin"
+
+# 5. 讓 Prometheus 能抓到所有 namespace 的 ServiceMonitor
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false

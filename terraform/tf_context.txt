@@ -1,0 +1,89 @@
+=== File: apis.tf ===
+resource "google_project_service" "container" {
+  service            = "container.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "artifactregistry" {
+  service            = "artifactregistry.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "iam" {
+  service            = "iam.googleapis.com"
+  disable_on_destroy = false
+}
+
+
+=== File: artifact_registry.tf ===
+resource "google_artifact_registry_repository" "eventflow" {
+  location      = "asia-east1"
+  repository_id = "eventflow-repo"
+  description   = "EventFlow 微服務 image 倉庫"
+  format        = "DOCKER"
+
+  depends_on = [google_project_service.artifactregistry]
+}
+
+
+=== File: gke_cluster.tf ===
+resource "google_container_cluster" "eventflow" {
+  name     = "eventflow-cluster"
+  location = "asia-east1"
+
+  enable_autopilot = true
+
+  workload_identity_config {
+    workload_pool = "eventflow-tibame-2026.svc.id.goog"
+  }
+
+  deletion_protection = false
+
+  depends_on = [google_project_service.container]
+}
+
+
+=== File: iam_bindings.tf ===
+resource "google_project_iam_member" "gke_sa_artifact_reader" {
+  project = "eventflow-tibame-2026"
+  role    = "roles/artifactregistry.reader"
+  member  = "serviceAccount:${google_service_account.eventflow_gke_sa.email}"
+}
+
+
+=== File: providers.tf ===
+terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "google" {
+  project = "eventflow-tibame-2026"
+  region  = "asia-east1"
+}
+
+
+=== File: service_account.tf ===
+resource "google_service_account" "eventflow_gke_sa" {
+  account_id   = "eventflow-gke-sa"
+  display_name = "EventFlow GKE Workload Service Account"
+  description  = "GKE Pod 用來存取 Artifact Registry 的身份"
+
+  depends_on = [google_project_service.iam]
+}
+
+
+=== File: workload_identity.tf ===
+resource "google_service_account_iam_member" "workload_identity_binding" {
+  service_account_id = google_service_account.eventflow_gke_sa.name
+  role                = "roles/iam.workloadIdentityUser"
+  member              = "serviceAccount:eventflow-tibame-2026.svc.id.goog[default/eventflow-ksa]"
+
+  depends_on = [google_container_cluster.eventflow]
+}
+
+
