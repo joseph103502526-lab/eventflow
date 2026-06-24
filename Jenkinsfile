@@ -23,7 +23,7 @@ pipeline {
             steps {
                 sh '''
                     cd event-service
-                    python3 -m pip install flask==3.0.3 pytest --break-system-packages -q
+                    python3 -m pip install -r requirements.txt pytest --break-system-packages -q
                     python3 -m pytest tests/ -v --tb=short
                     cd ..
                 '''
