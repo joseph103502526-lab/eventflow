@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: eventflow-alerts
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: eventflow
+      rules:
+        - alert: HighErrorRate
+          expr: |
+            rate(flask_http_request_total{status="500"}[1m]) > 0.05
+          for: 30s
+          labels:
+            severity: critical
+          annotations:
+            summary: "High error rate detected on {{ $labels.service }}"
+            description: "Service {{ $labels.service }} has error rate above 0.05 req/s for 30 seconds"
