@@ -24,5 +24,9 @@ def get_events():
 def get_event(event_id):
     return jsonify({"id": event_id, "name": "Taipei Tech Summit", "version": VERSION})
 
+@app.route('/events/error')
+def trigger_error():
+    return jsonify({"error": "simulated server error for demo"}), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
