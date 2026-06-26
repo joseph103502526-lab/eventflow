@@ -1,0 +1,71 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: event-service-scaler
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: event-service
+  minReplicaCount: 0
+  maxReplicaCount: 1
+  triggers:
+    - type: cron
+      metadata:
+        timezone: Asia/Taipei
+        start: "30 8 * * *"
+        end: "0 0 * * *"
+        desiredReplicas: "1"
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: booking-service-scaler
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: booking-service
+  minReplicaCount: 0
+  maxReplicaCount: 1
+  triggers:
+    - type: cron
+      metadata:
+        timezone: Asia/Taipei
+        start: "30 8 * * *"
+        end: "0 0 * * *"
+        desiredReplicas: "1"
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: notification-service-scaler
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: notification-service
+  minReplicaCount: 0
+  maxReplicaCount: 1
+  triggers:
+    - type: cron
+      metadata:
+        timezone: Asia/Taipei
+        start: "30 8 * * *"
+        end: "0 0 * * *"
+        desiredReplicas: "1"
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: api-gateway-scaler
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: api-gateway
+  minReplicaCount: 0
+  maxReplicaCount: 1
+  triggers:
+    - type: cron
+      metadata:
+        timezone: Asia/Taipei
+        start: "30 8 * * *"
+        end: "0 0 * * *"
+        desiredReplicas: "1"
