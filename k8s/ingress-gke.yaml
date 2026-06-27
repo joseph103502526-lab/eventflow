@@ -8,27 +8,6 @@ spec:
   rules:
     - http:
         paths:
-          - path: /events
-            pathType: Prefix
-            backend:
-              service:
-                name: event-service
-                port:
-                  number: 5001
-          - path: /bookings
-            pathType: Prefix
-            backend:
-              service:
-                name: booking-service
-                port:
-                  number: 5002
-          - path: /notify
-            pathType: Prefix
-            backend:
-              service:
-                name: notification-service
-                port:
-                  number: 5003
           - path: /
             pathType: Prefix
             backend:
